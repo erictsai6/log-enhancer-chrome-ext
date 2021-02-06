@@ -1,0 +1,16 @@
+
+{
+    "name": "Log Enhancer",
+    "version": "0.0.1",
+    "manifest_version": 2,
+    "description": "Makes parsing through log messages easier. Open source.",
+    "homepage_url": "https://github.com/erictsai6/log-enhancer-chrome-ext",
+    "minimum_chrome_version": "21",
+    "icons": {
+         "128": "icons/128.png"
+    },    
+    "content_scripts": [
+      { "matches": ["<all_urls>"], "js": ["js/content.js"], "run_at": "document_start" }
+    ],
+    "permissions":["*://*/*", "<all_urls>"]
+  }
