@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/erictsai6/log-enhancer-chrome-ext#readme",
   "dependencies": {
+    "randomcolor": "^0.6.2",
     "vue": "^3.0.5"
   },
   "devDependencies": {

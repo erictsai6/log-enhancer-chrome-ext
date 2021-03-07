@@ -1,16 +1,16 @@
 let initialized = false;
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  ready(request.filters, request.removes);
+  ready(request.highlights, request.removes);
 });
 
 function start(request) {
   alert("started", request);
 }
 
-function ready(filters, removes) {
-  if (filters.length === 0 && removes.length === 0) {
-    console.error("Nothing to filter or remove, noop");
+function ready(highlights, removes) {
+  if (highlights.length === 0 && removes.length === 0) {
+    console.error("Nothing to highlight or remove, noop");
     return;
   }
 
@@ -38,10 +38,11 @@ function ready(filters, removes) {
     let modified = false;
 
     // Prioritize highlighting over removal
-    for (let i = 0; i < filters.length; i++) {
-      const filterRegex = new RegExp(filters[i], "i");
-      if (filterRegex.test(logDiv.textContent)) {
-        logDiv.classList.add(`filter${i}`);
+    for (let i = 0; i < highlights.length; i++) {
+      const { text, color } = highlights[i];
+      const highlightRegex = new RegExp(text, "i");
+      if (highlightRegex.test(logDiv.textContent)) {
+        logDiv.style.backgroundColor = `#${color}`;
         modified = true;
         break;
       }
@@ -63,7 +64,7 @@ function ready(filters, removes) {
 
 function initializeStyle() {
   var css =
-      "pre > .filter0 { background: #6dd187; } pre > .filter1 { background: #eb86b8; } pre > .filter2 { background: #fadb9d; } pre > .hidden { display: none; }",
+      "pre > .hidden { display: none; }",
     head = document.head || document.getElementsByTagName("head")[0],
     style = document.createElement("style");
 

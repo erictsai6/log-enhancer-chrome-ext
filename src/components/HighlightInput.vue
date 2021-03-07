@@ -1,7 +1,8 @@
-<template>
-  <input type="text" v-model="text" @change="onTextUpdate">
-  <span>Color picker</span>
-  <button v-on:click="onDelete">-</button>
+<template>  
+  <input type="text" placeholder="enter pattern to highlight" v-model="text" @change="onTextUpdate">
+  <input type="text" placeholder="enter background color hex" v-model="color" @change="onColorUpdate">
+  <span :style="{ backgroundColor: '#' + color}">ex.</span>
+  <button v-on:click="onDelete"> - </button>
 </template>
 
 <script lang="ts">
@@ -12,19 +13,22 @@ export default defineComponent({
   props: {
     index: Number,
     text: String,
+    color: String,
     onDelete: Function,    
-  },
+  },  
   methods: {
     onTextUpdate(e) {            
       this.$emit('update:text', e.target.value);      
     },
+    onColorUpdate(e) {
+      this.$emit('update:color', e.target.value);      
+    },
     onDelete() {
-      this.$props.onDelete(this.$props.i);
+      this.$props.onDelete(this.$props.index);
     }
   }
 })
 </script>
 
 <style>
-
 </style>
