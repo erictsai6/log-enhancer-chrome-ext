@@ -42,6 +42,7 @@ function ready(highlights, removes) {
       const { text, color } = highlights[i];
       const highlightRegex = new RegExp(text, "i");
       if (highlightRegex.test(logDiv.textContent)) {
+        console.log(color);
         logDiv.style.backgroundColor = `#${color}`;
         modified = true;
         break;
@@ -50,7 +51,8 @@ function ready(highlights, removes) {
 
     if (!modified) {
       for (let i = 0; i < removes.length; i++) {
-        const removeRegex = new RegExp(removes[i], "i");
+        const { text } = removes[i];
+        const removeRegex = new RegExp(text, "i");
         if (removeRegex.test(logDiv.textContent)) {
           logDiv.classList.add(`hidden`);
           break;
