@@ -4,10 +4,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   ready(request.highlights, request.removes);
 });
 
-function start(request) {
-  alert("started", request);
-}
-
 function ready(highlights, removes) {
   if (highlights.length === 0 && removes.length === 0) {
     console.error("Nothing to highlight or remove, noop");
