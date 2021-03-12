@@ -11,12 +11,12 @@ class Storage {
           resolve(result);
         });
       } else {
-        resolve(JSON.parse(localStorage.getItem(KEY)));
+        resolve(JSON.parse(localStorage.getItem(KEY) as string));
       }
     });
   }
   saveData(value: any) {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       if (this.isPluginMode) {
         chrome.storage.local.set({ [KEY]: value }, function () {
           resolve();

@@ -1,5 +1,5 @@
 import randomColor from 'randomcolor';
 
-export function getRandomColor() {
+export function getRandomColor(): string {
   return randomColor().replace('#', '');
 }

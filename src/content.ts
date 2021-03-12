@@ -1,18 +1,23 @@
+
 let initialized = false;
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function (request: {highlights: any[], removes: any[]}, sender, sendResponse) {
   ready(request.highlights, request.removes);
 });
 
-function ready(highlights, removes) {
+function ready(highlights: any[], removes: any[]) {
   if (highlights.length === 0 && removes.length === 0) {
     console.error("Nothing to highlight or remove, noop");
     return;
   }
 
   if (!initialized) {
-    const logContainer = document.getElementsByTagName("pre")[0];
-    const logs = logContainer.textContent.split("\n");
+    const logContainers = document.getElementsByTagName("pre")
+    if (logContainers.length === 0) {
+      return;
+    }
+    const logContainer = logContainers[0];
+    const logs = (logContainer as HTMLPreElement).textContent.split("\n");
     logContainer.innerHTML = "";
 
     for (const log of logs) {
