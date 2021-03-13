@@ -4,6 +4,7 @@
   "description": "Enhance the log messages in a web ui",
   "main": "index.js",
   "scripts": {
+    "check": "",
     "dev": "vite",
     "prebuild": "rimraf ./dist",
     "postbuild": "node scripts/post-build.js",

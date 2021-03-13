@@ -2,7 +2,7 @@
 import typescript from '@rollup/plugin-typescript';
 
 export default {
-  input: 'src/content.ts',
+  input: 'src/content/main.ts',
   output: {
     dir: 'dist'
   },

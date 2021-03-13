@@ -42,7 +42,6 @@ export default defineComponent({
     }
   },
   mounted: function() {
-    console.log('bootstrapped');
     // Load in the data 
     storage.getData().then((value) => {
       if (value.highlights) {

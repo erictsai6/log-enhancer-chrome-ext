@@ -1,7 +1,10 @@
-
 let initialized = false;
 
-chrome.runtime.onMessage.addListener(function (request: {highlights: any[], removes: any[]}, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function (
+  request: { highlights: any[]; removes: any[] },
+  sender,
+  sendResponse
+) {
   ready(request.highlights, request.removes);
 });
 
@@ -12,7 +15,7 @@ function ready(highlights: any[], removes: any[]) {
   }
 
   if (!initialized) {
-    const logContainers = document.getElementsByTagName("pre")
+    const logContainers = document.getElementsByTagName("pre");
     if (logContainers.length === 0) {
       return;
     }
@@ -66,8 +69,7 @@ function ready(highlights: any[], removes: any[]) {
 // document.addEventListener("DOMContentLoaded", ready, false);
 
 function initializeStyle() {
-  var css =
-      "pre > .hidden { display: none; }",
+  var css = "pre > .hidden { display: none; }",
     head = document.head || document.getElementsByTagName("head")[0],
     style = document.createElement("style");
 
