@@ -1,6 +1,6 @@
 <template>
   <input type="text" v-model="text" @change="onTextUpdate">
-  <button v-on:click="onDelete">-</button>
+  <button v-on:click="_onDelete">-</button>
 </template>
 
 <script lang="ts">
@@ -17,7 +17,7 @@ export default defineComponent({
     onTextUpdate(e) {            
       this.$emit('update:text', e.target.value);      
     },
-    onDelete() {
+    _onDelete() {
       this.$props.onDelete(this.$props.i);
     }
   }

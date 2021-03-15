@@ -44,6 +44,9 @@ export default defineComponent({
   mounted: function() {
     // Load in the data 
     storage.getData().then((value) => {
+      if (!value) {
+        return;
+      }
       if (value.highlights) {
         this.highlights = value.highlights;
       }

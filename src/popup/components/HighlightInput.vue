@@ -2,7 +2,7 @@
   <input type="text" placeholder="enter pattern to highlight" v-model="text" @change="onTextUpdate">
   <input type="text" placeholder="enter background color hex" v-model="color" @change="onColorUpdate">
   <span :style="{ backgroundColor: '#' + color}">ex.</span>
-  <button v-on:click="onDelete"> - </button>
+  <button v-on:click="_onDelete"> - </button>
 </template>
 
 <script lang="ts">
@@ -23,7 +23,7 @@ export default defineComponent({
     onColorUpdate(e) {
       this.$emit('update:color', e.target.value);      
     },
-    onDelete() {
+    _onDelete() {
       this.$props.onDelete(this.$props.index);
     }
   }
