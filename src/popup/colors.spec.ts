@@ -1,6 +1,4 @@
-// src/components/HelloWorld.spec.ts
-import { mount } from '@vue/test-utils'
-import { getRandomColor } from '../../src/popup/colors';
+import { getRandomColor } from './colors';
 
 describe('popup/colors.ts', () => {
   it('should return a random color in hex without the #', () => {

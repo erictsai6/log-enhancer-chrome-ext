@@ -12,7 +12,7 @@
     "build:popup": "vite build",
     "build": "npm run build:popup && npm run build:content",
     "serve": "vite preview",
-    "test:unit": "jest tests"
+    "test:unit": "jest src"
   },
   "repository": {
     "type": "git",

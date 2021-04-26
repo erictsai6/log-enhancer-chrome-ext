@@ -1,6 +1,6 @@
 <template>  
-  <input type="text" placeholder="enter pattern to highlight" v-model="text" @change="onTextUpdate">
-  <input type="text" placeholder="enter background color hex" v-model="color" @change="onColorUpdate">
+  <input name="pattern" type="text" placeholder="enter pattern to highlight" v-model="text" @change="onTextUpdate">
+  <input name="color" type="text" placeholder="enter background color hex" v-model="color" @change="onColorUpdate">
   <span :style="{ backgroundColor: '#' + color}">ex.</span>
   <button v-on:click="_onDelete"> - </button>
 </template>
