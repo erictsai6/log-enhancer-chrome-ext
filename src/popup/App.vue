@@ -1,3 +1,4 @@
+
 <template>
   <h1>Log Enhancer Tool</h1>
   <div>
@@ -11,6 +12,7 @@
   </div>
   <div>
     <button v-on:click="addRemove">Add Remove</button>
+    
     <div v-for="(remove, index) in removes" :key="index">
       <RemoveInput :index="index" 
         v-model:text.sync="remove.text" :onDelete="deleteRemove" />
