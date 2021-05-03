@@ -1,20 +1,26 @@
 <template>
-  <div v-for="(log, index) in logs" :key="index">
-    <div :class="log.class" :style="log.style">{{ log.text }}</div>
-  </div>
+  <LogContainer :logs="logs" />
 </template>
 
 <script>
 import { defineComponent } from "vue";
+import LogContainer from './LogContainer.vue';
 
 export default defineComponent({
   name: "App",
-  components: {},
-  props: {
-    logs: Array,
+  components: {
+    LogContainer
   },
-  mounted: function () {},
-  methods: {},
+  data() {
+    return { 
+      logs: []
+    }
+  },
+  methods: {
+    setLogs(logs) {
+      this.logs = logs;      
+    }
+  },
 });
 </script>
 

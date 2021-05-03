@@ -1,41 +1,57 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 
-let initialized = false;
 let app;
+let cachedLogs;
 
 chrome.runtime.onMessage.addListener(function ({ highlights, removes }) {
-  if (!initialized) {
+  if (!app) {
     initializeStyle();
   }
 
   const logs = retrieveLogs();
 
+  resetLogs(logs);
+
   applyHighlightsAndRemoves(logs, highlights, removes);
 
-  app = createApp(App, {
-    logs,
-  }).mount("pre");
+  if (!app) {
+    app = createApp(App).mount("pre");
+  }
+  app.setLogs(logs);
 });
 
 function retrieveLogs() {
+  if (cachedLogs) {
+    return cachedLogs.map(x => x);
+  }
   const logContainers = document.getElementsByTagName("pre");
   if (logContainers.length === 0) {
     return;
   }
   const logContainer = logContainers[0];
-  return logContainer.textContent.split("\n").map((text) => {
+  cachedLogs = logContainer.textContent.split("\n").map((text) => {
     return {
       text,
       style: {},
       class: {},
     };
   });
+  return cachedLogs;
+}
+
+function resetLogs(logs) {
+  logs.forEach(x => resetLog(x));
+}
+
+function resetLog(log) {
+  log.style = {};
+  log.class = {};  
 }
 
 function applyHighlightsAndRemoves(logs, highlights, removes) {
   for (const log of logs) {
-    let modified = false;
+    let modified = false;   
 
     // Prioritize highlighting over removal
     for (let i = 0; i < highlights.length; i++) {
