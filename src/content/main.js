@@ -58,7 +58,7 @@ function applyHighlightsAndRemoves(logs, highlights, removes) {
       const { text, color } = highlights[i];
       const highlightRegex = new RegExp(text, "i");
       if (highlightRegex.test(log.text)) {
-        log.style.backgroundColor = `#${color}`;
+        log.style.backgroundColor = color;
         modified = true;
         break;
       }
@@ -77,12 +77,14 @@ function applyHighlightsAndRemoves(logs, highlights, removes) {
   }
 }
 
-function initializeStyle() {
-  var css = "pre .hidden { display: none; }",
-    head = document.head || document.getElementsByTagName("head")[0],
-    style = document.createElement("style");
+function initializeStyle() {  
+  var head = document.head || document.getElementsByTagName("head")[0];
+  var style = document.createElement("style");
 
   head.appendChild(style);
+
+  var css = "pre .hidden { display: none; }";
+  css += "pre div { mix-blend-mode: difference; }";
 
   style.appendChild(document.createTextNode(css));
 }

@@ -5,7 +5,6 @@ import resolve from "rollup-plugin-node-resolve";
 import commonJS from "rollup-plugin-commonjs";
 import alias from '@rollup/plugin-alias';
 
-
 export default {
   input: "src/content/main.js",
   output: {
@@ -16,7 +15,7 @@ export default {
     alias({
 			// resolve: [ '.js', '.ts' ],
 			entries: [
-				{ find: 'vue', replacement: 'node_modules/vue/dist/vue.runtime.esm-browser.js' }
+				{ find: 'vue', replacement: 'node_modules/vue/dist/vue.runtime.esm-browser.prod.js' }
 			]
     }),
 

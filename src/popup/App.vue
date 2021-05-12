@@ -1,6 +1,6 @@
 
 <template>
-  <h1>Log Enhancer Tool</h1>
+  <h3>Log Enhancer Tool</h3>
   <div>
     <button v-on:click="addHighlight">Add Highlight</button>
     <div v-for="(highlight, index) in highlights" :key="index">
@@ -100,7 +100,6 @@ export default defineComponent({
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 .primary-btn {
   background-color: rgb(65, 134, 0);
