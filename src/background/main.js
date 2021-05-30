@@ -5,10 +5,9 @@ chrome.runtime.onMessage.addListener((request, sender) => {
     .query({ active: true })
     .then(function (tabs) {
       if (tabs.length === 0) {
+        console.warn('No active tabs found, no operation');
         return;
       }      
-      // TODO - How do I identify the correct active tab?  
-      console.log(tabs);
       tab = tabs[0];
       return chrome.scripting.executeScript({
         target: { tabId: tab.id },
