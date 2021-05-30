@@ -2,20 +2,20 @@
 {
     "name": "Log Enhancer",
     "version": "1.0.0",
-    "manifest_version": 2,
-    "description": "A tool that allows you to highlight or remove multiple log lines to simplify human parsing",
+    "manifest_version": 3,
+    "description": "A tool that allows you to highlight or remove multiple log lines for enhanced parsing",
     "homepage_url": "https://github.com/erictsai6/log-enhancer-chrome-ext",
     "minimum_chrome_version": "21",
     "icons": {
       "16": "icons/16.png",
       "64": "icons/64.png",
       "128": "icons/128.png"
-    },    
-    "content_scripts": [
-      { "matches": ["<all_urls>"], "js": ["dist/main.js"], "run_at": "document_start" }
-    ],
-    "browser_action": {
-        "default_popup": "dist/index.html"
-      },
-    "permissions":["*://*/*", "<all_urls>", "storage"]
+    },       
+    "background": {
+      "service_worker": "build-background.js"
+    },
+    "action": {
+      "default_popup": "index.html"
+    },
+    "permissions":["activeTab", "storage", "scripting"]
   }

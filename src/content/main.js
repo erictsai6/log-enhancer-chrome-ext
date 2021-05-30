@@ -1,33 +1,54 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 
-let app;
+const LOG_ENHANCER_LOCK = "log-enhancer-lock";
 let cachedLogs;
+let app;
 
-chrome.runtime.onMessage.addListener(function ({ highlights, removes }) {
-  if (!app) {
-    initializeStyle();
+function initialize() {
+  const lockQuery = document.head.querySelectorAll(`[${LOG_ENHANCER_LOCK}]`);
+
+  if (lockQuery.length > 0) {
+    const dateTime = lockQuery[0].getAttribute(LOG_ENHANCER_LOCK);
+    console.warn(
+      `${LOG_ENHANCER_LOCK} found, app already initialized at ${dateTime}. No operation`
+    );
+    return;
   }
 
-  const logs = retrieveLogs();
+  const lockElement = document.createElement("meta");
+  lockElement.setAttribute(LOG_ENHANCER_LOCK, new Date().toISOString());
+  document.head.appendChild(lockElement);
 
-  resetLogs(logs);
+  initializeStyle();
+  // Warm the cachedLogs
+  retrieveLogs();
 
-  applyHighlightsAndRemoves(logs, highlights, removes);
+  app = createApp(App).mount("pre");
 
-  if (!app) {
-    app = createApp(App).mount("pre");
-  }
-  app.setLogs(logs);
-});
+  chrome.runtime.onMessage.addListener((request) => {
+    const { highlights, removes } = request || {
+      highlights: [],
+      removes: [],
+    };
+    const logs = retrieveLogs();
+
+    resetLogs(logs);
+
+    applyHighlightsAndRemoves(logs, highlights, removes);
+
+    app.setLogs(logs);
+  });
+}
 
 function retrieveLogs() {
   if (cachedLogs) {
-    return cachedLogs.map(x => x);
+    return cachedLogs.slice();
   }
   const logContainers = document.getElementsByTagName("pre");
   if (logContainers.length === 0) {
-    return;
+    const errorMessage = "No pre element found, throwing error";
+    throw new Error(errorMessage);
   }
   const logContainer = logContainers[0];
   cachedLogs = logContainer.textContent.split("\n").map((text) => {
@@ -41,17 +62,17 @@ function retrieveLogs() {
 }
 
 function resetLogs(logs) {
-  logs.forEach(x => resetLog(x));
+  logs.forEach((x) => resetLog(x));
 }
 
 function resetLog(log) {
   log.style = {};
-  log.class = {};  
+  log.class = {};
 }
 
 function applyHighlightsAndRemoves(logs, highlights, removes) {
   for (const log of logs) {
-    let modified = false;   
+    let modified = false;
 
     // Prioritize highlighting over removal
     for (let i = 0; i < highlights.length; i++) {
@@ -77,7 +98,7 @@ function applyHighlightsAndRemoves(logs, highlights, removes) {
   }
 }
 
-function initializeStyle() {  
+function initializeStyle() {
   var head = document.head || document.getElementsByTagName("head")[0];
   var style = document.createElement("style");
 
@@ -88,3 +109,5 @@ function initializeStyle() {
 
   style.appendChild(document.createTextNode(css));
 }
+
+initialize();
