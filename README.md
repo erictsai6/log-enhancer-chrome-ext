@@ -1,6 +1,8 @@
 # log-enhancer-chrome-ext
 Chrome extension to allow for special highlighting and filtering to make log parsing easier. 
 
+<img width="1159" alt="Screen Shot 2021-05-30 at 2 11 43 PM" src="https://user-images.githubusercontent.com/1450578/120115618-75a29380-c152-11eb-8674-4c3a2160304c.png">
+
 ## Core concepts
 Chrome extensions use the terminology for "content" and "popup" in their documentation.  
 * Content refers to the script that loads onto the page - this will be responsible for applying the styles on the log file.  
