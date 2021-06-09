@@ -31,6 +31,7 @@
 import { defineComponent } from "vue";
 import HighlightInput from "./components/HighlightInput.vue";
 import RemoveInput from "./components/RemoveInput.vue";
+
 import { storage } from "./storage";
 import { getRandomColor } from "./colors";
 
@@ -44,6 +45,7 @@ export default defineComponent({
     return {
       highlights: [],
       removes: [],
+      logs: [],
     };
   },
   mounted: function () {

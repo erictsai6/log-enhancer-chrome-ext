@@ -1,15 +1,18 @@
 <template>
+  <Sidebar :logs="logs" />
   <LogContainer :logs="logs" />
 </template>
 
 <script>
 import { defineComponent } from "vue";
 import LogContainer from './LogContainer.vue';
+import Sidebar from './Sidebar.vue';
 
 export default defineComponent({
   name: "App",
   components: {
-    LogContainer
+    LogContainer,
+    Sidebar
   },
   data() {
     return { 
