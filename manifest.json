@@ -1,7 +1,7 @@
 
 {
     "name": "Log Enhancer",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "manifest_version": 3,
     "description": "A tool that allows you to highlight or remove multiple log lines for enhanced parsing",
     "homepage_url": "https://github.com/erictsai6/log-enhancer-chrome-ext",
