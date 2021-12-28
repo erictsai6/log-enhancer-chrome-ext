@@ -1,6 +1,6 @@
 {
   "name": "log-enhancer-chrome-ext",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Enhance the log messages in a web ui",
   "main": "index.js",
   "scripts": {
