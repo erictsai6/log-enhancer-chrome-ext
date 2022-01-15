@@ -2,7 +2,10 @@ chrome.runtime.onMessage.addListener((request, sender) => {
   let tab;
 
   return chrome.tabs
-    .query({ active: true })
+    .query({ 
+      active: true,
+      currentWindow: true
+    })
     .then(function (tabs) {
       if (tabs.length === 0) {
         console.warn('No active tabs found, no operation');
