@@ -1,51 +1,51 @@
 <template>
-  <h3>Log Enhancer Tool</h3>
-  <div>
-    <button v-on:click="addHighlight">Add Highlight</button>
-    <div v-for="(highlight, index) in highlights" :key="index">
-      <HighlightInput
-        :index="index"
-        v-model:text="highlight.text"
-        v-model:color="highlight.color"
-        :onDelete="deleteHighlight"
-      />
-    </div>
-  </div>
-  <div>
-    <button v-on:click="addRemove">Add Remove</button>
-
-    <div v-for="(remove, index) in removes" :key="index">
-      <RemoveInput
-        :index="index"
-        v-model:text.sync="remove.text"
-        :onDelete="deleteRemove"
-      />
-    </div>
-  </div>
-  <div>
-    <button class="primary-btn" v-on:click="applyChanges">Apply</button>
-  </div>
+  <template v-if="route === 'HOME'">
+    <HomePage 
+      :selectedProfile="appState.selectedProfile"
+      :onApplyChanges="applyChanges"
+      :onNewLogProfile="newLogProfile"
+      :onNavigateToAddLogProfilePage="navigateToAddLogProfilePage"
+      :onNavigateToLogProfilesPage="navigateToLogProfilesPage" />
+  </template>
+  <template v-if="route === 'LOG_PROFILES_PAGE'">
+    <LogProfilesPage 
+      :savedLogProfiles="appState.savedLogProfiles"
+      :onSelect="selectLogProfile"
+      :onDelete="deleteLogProfile"
+      :onGoBack="navigateToHome"
+    />
+  </template>
+  <template v-if="route === 'ADD_LOG_PROFILE_PAGE'">
+    <AddLogProfilePage 
+      :onAddLogProfile="saveLogProfile"
+      :onGoBack="navigateToHome"
+    />
+  </template>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import HighlightInput from "./components/HighlightInput.vue";
-import RemoveInput from "./components/RemoveInput.vue";
+import HomePage from "./components/HomePage.vue";
+import LogProfilesPage from "./components/LogProfilesPage.vue";
+import AddLogProfilePage from "./components/AddLogProfilePage.vue";
 
 import { storage } from "./storage";
-import { getRandomColor } from "./colors";
+
+import { AppState } from './models/app-state';
+import { LogProfile } from "./models/log-profile";
 
 export default defineComponent({
   name: "App",
   components: {
-    HighlightInput,
-    RemoveInput,
+    HomePage,
+    LogProfilesPage,
+    AddLogProfilePage
   },
   data() {
     return {
-      highlights: [],
-      removes: [],
+      appState: new AppState(LogProfile.emptyLogProfile(), []),
       logs: [],
+      route: 'HOME'
     };
   },
   mounted: function () {
@@ -54,41 +54,48 @@ export default defineComponent({
       if (!value) {
         return;
       }
-      if (value.highlights) {
-        this.highlights = value.highlights;
-      }
-      if (value.removes) {
-        this.removes = value.removes;
-      }
+      this.appState = AppState.fromStorage(value);      
     });
   },
   methods: {
-    deleteHighlight(i: number) {
-      this.highlights.splice(i, 1);
+    navigateToLogProfilesPage() {
+      this.route = 'LOG_PROFILES_PAGE';
     },
-    deleteRemove(i: number) {
-      this.removes.splice(i, 1);
+    navigateToAddLogProfilePage() {
+      this.route = 'ADD_LOG_PROFILE_PAGE';
     },
-    addHighlight() {
-      this.highlights.push({
-        text: "",
-        color: getRandomColor(),
-      });
+    navigateToHome() {
+      this.route = 'HOME';
+    },  
+    newLogProfile() {
+      this.appState.selectedProfile = LogProfile.emptyLogProfile();
     },
-    addRemove() {
-      this.removes.push({
-        text: "",
-      });
+    saveLogProfile(name: string) {
+      this.appState.saveLogProfile(name);
+      storage.saveData(this.appState);
+      this.navigateToHome();
     },
+    selectLogProfile(index: number) {
+      this.appState.selectedProfile = this.appState.savedLogProfiles[index];
+      this.navigateToHome();
+    },
+    deleteLogProfile(index: number) {
+      if (this.appState.selectedProfile.name === this.appState.savedLogProfiles[index].name) {
+        this.newLogProfile();
+      }
+      this.appState.deleteLogProfile(index); 
+      
+      storage.saveData(this.appState);     
+    },    
     applyChanges() {
-      const highlights = this.highlights.filter((x) => !!x);
-      const removes = this.removes.filter((x) => !!x);
+      const highlights = this.appState.selectedProfile.highlights.filter((x) => !!x);
+      const removes = this.appState.selectedProfile.removes.filter((x) => !!x);
 
       chrome.runtime.sendMessage({
         highlights,
         removes,
       });
-      storage.saveData({ highlights, removes });
+      storage.saveData(this.appState);
     },
   },
 });
@@ -101,9 +108,5 @@ export default defineComponent({
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-.primary-btn {
-  background-color: rgb(65, 134, 0);
-  color: white;
 }
 </style>

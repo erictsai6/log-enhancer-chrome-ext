@@ -18,7 +18,7 @@ export default defineComponent({
       this.$emit('update:text', e.target.value);      
     },
     _onDelete() {
-      this.$props.onDelete(this.$props.i);
+      this.$props.onDelete(this.$props.index);
     }
   }
 })
