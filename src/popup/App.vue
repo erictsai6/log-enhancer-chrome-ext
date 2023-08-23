@@ -95,6 +95,9 @@ export default defineComponent({
         highlights,
         removes,
       });
+      if (this.appState.selectedProfile.name) {
+        this.appState.updateLogProfileByName(this.appState.selectedProfile.name);
+      }
       storage.saveData(this.appState);
     },
   },

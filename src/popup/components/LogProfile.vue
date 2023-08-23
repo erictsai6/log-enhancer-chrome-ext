@@ -3,7 +3,7 @@
         <button
             v-on:click="_onSelect">Select</button>
         <span>{{logProfile.name}}</span>
-        <button
+        <button class="remove-btn"
             v-on:click="_onDelete">Remove</button>
     </div>  
 </template>
@@ -34,6 +34,9 @@ export default defineComponent({
 .log-profile-container {
     display: flex;
     flex-direction: row;
-
+    justify-content: space-between;
+}
+.remove-btn {
+  background-color: rgb(250, 196, 125);
 }
 </style>

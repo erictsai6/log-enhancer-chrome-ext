@@ -3,15 +3,17 @@
       <div>Log Profiles</div>
       <button v-on:click="_onGoBack">Go back</button>
   </div>
-  <div v-if="savedLogProfiles.length === 0">No saved log profiles found.</div>
-  <div v-for="(logProfile, index) in savedLogProfiles" :key="logProfile.name">
-    <LogProfile
-        :index="index"
-        :logProfile="logProfile"
-        :onSelect="_onSelect"
-        :onDelete="_onDelete"
-    />
+  <div class="log-profiles-container">
+    <div v-if="savedLogProfiles.length === 0">No saved log profiles found.</div>
+    <div v-for="(logProfile, index) in savedLogProfiles" :key="logProfile.name">
+      <LogProfile
+          :index="index"
+          :logProfile="logProfile"
+          :onSelect="_onSelect"
+          :onDelete="_onDelete"
+      />
     </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -44,4 +46,8 @@ export default defineComponent({
 </script>
 
 <style>
+.log-profiles-container {
+  padding: 10px;
+  padding-top: 25px;
+}
 </style>

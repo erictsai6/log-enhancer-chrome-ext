@@ -5,6 +5,7 @@ import { Remove } from "./remove";
 export class AppState {
     selectedProfile: LogProfile;
     savedLogProfiles: LogProfile[];
+    version: string;
 
     // Increment when breaking changes are needed
     public static version = '2';
@@ -12,6 +13,7 @@ export class AppState {
     constructor(selectedProfile: LogProfile, savedLogProfiles: LogProfile[]) {
         this.selectedProfile = selectedProfile;
         this.savedLogProfiles = savedLogProfiles;
+        this.version = AppState.version;
     }
 
     public saveLogProfile(name: string) {
@@ -20,8 +22,13 @@ export class AppState {
         this.savedLogProfiles.push(this.selectedProfile);
     }
 
-    public updateLogProfile(index: number) {        
-        this.savedLogProfiles[index] = this.selectedProfile;
+    public updateLogProfileByName(name: string) {        
+        for (let index=0; index < this.savedLogProfiles.length; index++) {
+            if (this.savedLogProfiles[index].name === name) {
+                this.savedLogProfiles[index] = this.selectedProfile;
+                break;
+            }
+        }
     }
 
     public deleteLogProfile(index: number) {
@@ -41,6 +48,7 @@ export class AppState {
             removes: Remove[]
         }
         */
+        console.log(document);
         if (!document.version) {
             return new AppState(new LogProfile(null, 
                 (document.highlights || []).map(x => Highlight.fromStorage(x)),

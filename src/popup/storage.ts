@@ -8,7 +8,7 @@ class Storage {
       if (this.isPluginMode) {
         chrome.storage.local.get(KEY, function (value) {
           const result = value[KEY];          
-          resolve(result);
+          resolve(JSON.parse(result));
         });
       } else {
         resolve(JSON.parse(localStorage.getItem(KEY) as string));
@@ -18,7 +18,7 @@ class Storage {
   saveData(value: any) {
     return new Promise<void>((resolve, reject) => {
       if (this.isPluginMode) {
-        chrome.storage.local.set({ [KEY]: value }, function () {
+        chrome.storage.local.set({ [KEY]: JSON.stringify(value) }, function () {
           resolve();
         });
       } else {
