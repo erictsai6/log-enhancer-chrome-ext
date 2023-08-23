@@ -7,8 +7,12 @@ class Storage {
     return new Promise((resolve, reject) => {
       if (this.isPluginMode) {
         chrome.storage.local.get(KEY, function (value) {
-          const result = value[KEY];          
-          resolve(JSON.parse(result));
+          const result = value[KEY];               
+          if (typeof result === 'string') {
+            resolve(JSON.parse(result));
+          } else {
+            resolve(result);
+          }
         });
       } else {
         resolve(JSON.parse(localStorage.getItem(KEY) as string));
